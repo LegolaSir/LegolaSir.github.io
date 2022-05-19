@@ -3,14 +3,17 @@ let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
 
-let directionMap = {
+const FRUIT_WIDTH = 25;
+const FRUIT_HEIGHT = 25;
+
+let keyLabels = {
     left: "left", 
     right: "right"
 };
 
 let keyMap = {
-    65: directionMap.left, // Tecla 'A'
-    68: directionMap.right // Tecla 'D'
+    65: keyLabels.left, // Tecla 'A'
+    68: keyLabels.right, // Tecla 'D'
 };
 
 /* Game Objects */
@@ -28,7 +31,7 @@ let floor = {
         context.fillStyle = this.color;
         context.fillRect(this.x, this.y, this.width, this.height);
     },
-}
+};
 
 let player = {
     x: 275, //this.x = (WIN_WIDTH - this.width) / 2;
@@ -49,10 +52,10 @@ let player = {
         let held_key = heldKeys[0];
 
         if(held_key){
-            if(held_key === directionMap.right){
+            if(held_key === keyLabels.right){
                 this.x += this.speed;
             }
-            else if(held_key === directionMap.left){
+            else if(held_key === keyLabels.left){
                 this.x -= this.speed;
             }
         }
@@ -67,6 +70,31 @@ let player = {
 
         if(this.x >= WIN_WIDTH - this.width){
             this.x = WIN_WIDTH - this.width;
+        }
+    }
+};
+
+let fruits = {
+    _storage: [],
+    _colors: ["#bd3038", "#b7c9a9"],
+    gravity: 2,
+
+    spawn: function(){
+        this._storage.push({
+             x: Math.floor(Math.random() * (WIN_WIDTH - FRUIT_WIDTH)),
+             y: 0,
+             width: FRUIT_WIDTH,
+             height: FRUIT_HEIGHT,
+             hue: this._colors[Math.floor(Math.random() * 2)]
+        });
+    },
+
+    draw: function(){
+        for(let i=0; i < this._storage.length; i++){
+            let item = this._storage[i];
+
+            context.fillStyle = item.hue;
+            context.fillRect(item.x, item.y, item.width, item.height);
         }
     }
 }
@@ -114,6 +142,7 @@ function draw(){
 
     floor.draw();
     player.draw();
+    fruits.draw();
 }
 
 /* Custom | Auxiliar Methods */
