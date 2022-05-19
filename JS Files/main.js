@@ -78,6 +78,9 @@ let fruits = {
     _storage: [],
     _colors: ["#bd3038", "#b7c9a9"],
     gravity: 2,
+    initDelay: 200,
+    delay: 0,
+    timer: 0,
 
     spawn: function(){
         this._storage.push({
@@ -87,6 +90,12 @@ let fruits = {
              height: FRUIT_HEIGHT,
              hue: this._colors[Math.floor(Math.random() * 2)]
         });
+
+        this.timer = this.initDelay - this.delay;
+
+        if(this.timer <= this.delay){
+            this.timer = 30;
+        }
     },
 
     draw: function(){
@@ -95,6 +104,26 @@ let fruits = {
 
             context.fillStyle = item.hue;
             context.fillRect(item.x, item.y, item.width, item.height);
+        }
+    },
+
+    applyGravity: function(){
+        for(let i=0; i < this._storage.length; i++){
+            let item = this._storage[i];
+
+            item.y += this.gravity;
+            
+            if(item.y >= floor.y - item.height){
+                this.destroyOnGround(item);
+            }
+        }    
+    },
+
+    destroyOnGround: function(item){
+        let index = this._storage.indexOf(item);
+
+        if(index > -1){
+            this._storage.splice(index, 1);
         }
     }
 }
@@ -134,12 +163,17 @@ function run(){
 }
 
 function update(){
+    // Calling Player Movement Function
     player.control();
+    
+    spawnCollectiblesByDelay();
+    fruits.applyGravity();
 }
 
 function draw(){
     setCanvasBGColor("#674d69");
 
+    // Calling Draw Functions of Game Elements
     floor.draw();
     player.draw();
     fruits.draw();
@@ -163,4 +197,15 @@ function setCanvasSize(canvas){
 function setCanvasBGColor(color){
     context.fillStyle = color;
     context.fillRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
+}
+
+function spawnCollectiblesByDelay(){
+    if(fruits.timer <= 0){
+        fruits.spawn();
+
+        //console.log(fruits.timer)
+    }
+    else if(fruits.timer > 0){
+        fruits.timer--;
+    }
 }
