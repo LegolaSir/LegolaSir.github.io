@@ -40,12 +40,30 @@ let player = {
     height: 50,
     color: "#ff7c70",
     speed: 8,
+    belly: {
+        xLeft: 275, 
+        xRight: 300,
+        y: -1, 
+        widthLeft: 25,
+        widthRight: 25,
+        height: 25, 
+        color: "#ff7c70",
+
+        draw: function(){
+            this.y = floor.y - this.height;
+
+            context.fillStyle = this.color;
+            context.fillRect(this.xLeft, this.y, this.widthLeft, this.height);
+            context.fillRect(this.xRight, this.y, this.widthRight, this.height);
+        }
+    },
 
     draw: function(){
         this.y = floor.y - this.height;
 
         context.fillStyle = this.color;
         context.fillRect(this.x, this.y, this.width, this.height);
+        this.belly.draw();
     },
 
     control: function(){
@@ -54,9 +72,13 @@ let player = {
         if(held_key){
             if(held_key === keyLabels.right){
                 this.x += this.speed;
+                this.belly.xLeft += this.speed;
+                this.belly.xRight += this.speed;
             }
             else if(held_key === keyLabels.left){
                 this.x -= this.speed;
+                this.belly.xLeft -= this.speed;
+                this.belly.xRight -= this.speed;
             }
         }
 
@@ -64,19 +86,41 @@ let player = {
     },
 
     restrainMovement: function(){
-        if(this.x <= 0){
+        let wL = this.belly.widthLeft;
+        let wR = this.belly.widthRight;
+
+        /* Player Collision towards the Canvas Border [left side] */
+        if(this.belly.xLeft <= -wL && wL < 0){
+            // Fat Belly Collision
+            this.x = -wL;
+            this.belly.xLeft = -wL;
+            this.belly.xRight = -wL + 25;
+        }
+        else if (this.x <= 0){ 
+            // Default Collision
             this.x = 0;
+            this.belly.xLeft = 0;
+            this.belly.xRight = 25;
         }
 
-        if(this.x >= WIN_WIDTH - this.width){
+        /* Player Collision towards the Canvas Border [right side] */
+        if(this.belly.xRight >= WIN_WIDTH - wR){
+            this.x = WIN_WIDTH - (this.width + wR - 25);
+            this.belly.xRight = WIN_WIDTH - wR;
+            this.belly.xLeft = WIN_WIDTH - (wR + 25);
+        }
+        else if(this.x >= WIN_WIDTH - this.width){
+            // Default Collision
             this.x = WIN_WIDTH - this.width;
+            this.belly.xRight = WIN_WIDTH - wR;
+            this.belly.xLeft = WIN_WIDTH - 50;
         }
     }
 };
 
 let fruits = {
     _storage: [],
-    _colors: ["#bd3038", "#b7c9a9"],
+    _colors: ["#bd3038", "#36802d"],
     gravity: 2,
     initDelay: 200,
     delay: 0,
