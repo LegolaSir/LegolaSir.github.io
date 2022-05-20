@@ -39,7 +39,8 @@ let player = {
     width: 50,
     height: 50,
     color: "#ff7c70",
-    speed: 8,
+    defaultSpeed: 6,
+    speed: 6,
     score: 0,
     maxScore: 0,
     health: 3,
@@ -48,7 +49,7 @@ let player = {
         xLeft: 275, 
         xRight: 300,
         y: -1, 
-        widthLeft: 25,
+        widthLeft: 0,
         widthRight: 25,
         height: 25, 
         color: "#ff7c70",
@@ -124,7 +125,7 @@ let player = {
 
 let fruits = {
     _storage: [],
-    _colors: ["#bd3038", "#36802d"],
+    _colors: ["#bd3038", "#36802d"], // ['red', 'green']
     gravity: 2,
     initDelay: 200,
     delay: 0,
@@ -139,10 +140,10 @@ let fruits = {
              hue: this._colors[Math.floor(Math.random() * 2)]
         });
 
-        this.timer = this.initDelay - this.delay;
-
+        this.timer = this.initDelay - (this.delay * 1.5);
+        
         if(this.timer <= this.delay){
-            this.timer = 30;
+            this.timer = 40;
         }
     },
 
@@ -171,6 +172,13 @@ let fruits = {
         for(let i=0; i < this._storage.length; i++){
             let item = this._storage[i];
 
+            this.checkPlayerBodyCollision(item);
+            this.checkPlayerBellyLeftCollision(item);
+            this.checkPlayerBellyRightCollision(item);
+        }
+    },
+
+    checkPlayerBodyCollision: function(item){
             if( // Main Player Body Collision
                 player.x < item.x + item.width && // RIGHT
                 player.x + player.width > item.x && // LEFT
@@ -178,25 +186,34 @@ let fruits = {
                 player.y + player.height > item.y // BOTTOM
             ){
                 this.destroyOnCollision(item);
+                this.playerScore(item);
+                this.setDelay();
             }
+    },
 
-            if( // Left Belly Player Collision
-                player.belly.xLeft > item.x + item.width && // LEFT
-                player.belly.xLeft + player.belly.widthLeft < item.x && // INSIDE-LEFT
-                player.belly.y < item.y + item.height && // TOP
-                player.belly.y + player.belly.y > item.y // BOTTOM
-            ){
-                this.destroyOnCollision(item);
-            }
+    checkPlayerBellyLeftCollision: function(item){
+        if( // Left Belly Player Collision
+            player.belly.xLeft > item.x + item.width && // LEFT
+            player.belly.xLeft + player.belly.widthLeft < item.x && // INSIDE-LEFT
+            player.belly.y < item.y + item.height && // TOP
+            player.belly.y + player.belly.y > item.y // BOTTOM
+        ){
+            this.destroyOnCollision(item);
+            this.playerScore(item);
+            this.setDelay();
+        }
+    },
 
-            if( // Right Belly Player Collision
-                player.belly.xRight < item.x + item.width && // LEFT
-                player.belly.xRight + player.belly.widthRight > item.x && // INSIDE-LEFT
-                player.belly.y < item.y + item.height && // TOP
-                player.belly.y + player.belly.y > item.y // BOTTOM
-            ){
-                this.destroyOnCollision(item);
-            }
+    checkPlayerBellyRightCollision: function(item){
+        if( // Right Belly Player Collision
+            player.belly.xRight < item.x + item.width && // RIGHT
+            player.belly.xRight + player.belly.widthRight > item.x && // INSIDE-RIGHT
+            player.belly.y < item.y + item.height && // TOP
+            player.belly.y + player.belly.y > item.y // BOTTOM
+        ){
+            this.destroyOnCollision(item);
+            this.playerScore(item);
+            this.setDelay();
         }
     },
 
@@ -205,6 +222,35 @@ let fruits = {
 
         if(index > -1){
             this._storage.splice(index, 1);
+        }
+    },
+
+    playerScore: function(item){
+        if(item.hue == "#36802d"){
+            player.score += 1;
+            
+            // Maximum Bellies' Width Size
+            if(player.belly.widthLeft <= -50 && player.belly.widthRight >= 75){
+                player.belly.widthLeft = -50;
+                player.belly.widthRight = 75;
+                player.speed = player.defaultSpeed / 4;
+            }
+            else if(player.belly.widthLeft > -50 && player.belly.widthRight < 75)
+            {
+                player.belly.widthLeft -= 1;
+                player.belly.widthRight += 1;
+                player.speed -= (player.defaultSpeed/25) / 4;
+            }
+
+            console.log(player.speed, player.score)
+        }
+    },
+
+    setDelay: function(){
+        this.delay += 5.5;
+
+        if(this.delay >= 100){
+            this.delay = 100;
         }
     }
 }
