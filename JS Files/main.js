@@ -40,6 +40,10 @@ let player = {
     height: 50,
     color: "#ff7c70",
     speed: 8,
+    score: 0,
+    maxScore: 0,
+    health: 3,
+    
     belly: {
         xLeft: 275, 
         xRight: 300,
@@ -124,7 +128,7 @@ let fruits = {
     gravity: 2,
     initDelay: 200,
     delay: 0,
-    timer: 0,
+    timer: 200,
 
     spawn: function(){
         this._storage.push({
@@ -158,12 +162,45 @@ let fruits = {
             item.y += this.gravity;
             
             if(item.y >= floor.y - item.height){
-                this.destroyOnGround(item);
+                this.destroyOnCollision(item);
             }
         }    
     },
 
-    destroyOnGround: function(item){
+    gatheredByPlayer(){
+        for(let i=0; i < this._storage.length; i++){
+            let item = this._storage[i];
+
+            if( // Main Player Body Collision
+                player.x < item.x + item.width && // RIGHT
+                player.x + player.width > item.x && // LEFT
+                player.y < item.y + item.height && // TOP
+                player.y + player.height > item.y // BOTTOM
+            ){
+                this.destroyOnCollision(item);
+            }
+
+            if( // Left Belly Player Collision
+                player.belly.xLeft > item.x + item.width && // LEFT
+                player.belly.xLeft + player.belly.widthLeft < item.x && // INSIDE-LEFT
+                player.belly.y < item.y + item.height && // TOP
+                player.belly.y + player.belly.y > item.y // BOTTOM
+            ){
+                this.destroyOnCollision(item);
+            }
+
+            if( // Right Belly Player Collision
+                player.belly.xRight < item.x + item.width && // LEFT
+                player.belly.xRight + player.belly.widthRight > item.x && // INSIDE-LEFT
+                player.belly.y < item.y + item.height && // TOP
+                player.belly.y + player.belly.y > item.y // BOTTOM
+            ){
+                this.destroyOnCollision(item);
+            }
+        }
+    },
+
+    destroyOnCollision: function(item){
         let index = this._storage.indexOf(item);
 
         if(index > -1){
@@ -212,6 +249,7 @@ function update(){
     
     spawnCollectiblesByDelay();
     fruits.applyGravity();
+    fruits.gatheredByPlayer();
 }
 
 function draw(){
@@ -246,8 +284,6 @@ function setCanvasBGColor(color){
 function spawnCollectiblesByDelay(){
     if(fruits.timer <= 0){
         fruits.spawn();
-
-        //console.log(fruits.timer)
     }
     else if(fruits.timer > 0){
         fruits.timer--;
