@@ -2,6 +2,7 @@
 let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
+let scoreTxt, healthTxt;
 
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
@@ -226,8 +227,9 @@ let fruits = {
     },
 
     playerScore: function(item){
-        if(item.hue == "#36802d"){
+        if(item.hue == "#36802d"){ // 'Green' Colour
             player.score += 1;
+            scoreTxt.innerHTML = `Score: ${player.score}`;
             
             // Maximum Bellies' Width Size
             if(player.belly.widthLeft <= -50 && player.belly.widthRight >= 75){
@@ -241,8 +243,6 @@ let fruits = {
                 player.belly.widthRight += 1;
                 player.speed -= (player.defaultSpeed/25) / 4;
             }
-
-            console.log(player.speed, player.score)
         }
     },
 
@@ -257,6 +257,13 @@ let fruits = {
 
 /* Main Methods */
 function main(){
+    // Waiting the HTML File to complete loading to access <div> elements on screen
+    document.addEventListener("DOMContentLoaded", () =>{
+        scoreTxt = document.getElementById("scoreTxt");
+        healthTxt = document.getElementById("healthTxt");
+    });
+
+
     let canvas = document.createElement("canvas");
     setCanvasSize(canvas);
     canvas.style.border = "solid 10px black";

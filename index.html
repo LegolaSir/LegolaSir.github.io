@@ -14,23 +14,75 @@
             left: 0px;
             right: 0px;
         }
-        
+
+        .title{
+            position: relative;
+            height: 200px;
+
+            display: flex;
+            justify-content: center;
+        }
+
         h1{
-           font-family: 'Segoe UI';
-           font-size: 36px;
            position: absolute;
            margin: 10px;
+           padding: 25px;
+           padding-left: 150px;
+           padding-right: 150px;
+
+           font-family: 'Trebuchet MS';
+           font-size: 36px;
            text-align: center;
-           top: 0px;
-           bottom: 0px;
-           left: 0px;
-           right: 0px;
+           border: solid 2px #000;
+           background-color: lightgrey;
+        }
+
+        #scoreTxt{
+            position: absolute;
+            margin: 0 0 030px;
+            padding: 50px;
+            left: 250px;
+            top: 250px;
+            width: 150px;
+
+
+            font-family: fantasy;
+            font-size: 30px;
+            border: solid 2px #000;
+            background-color: lightgray;
+            text-align: center;
+        }
+
+        #healthTxt{
+            position: absolute;
+            margin: 0 0 0 30px;
+            padding: 50px;
+            right: 250px;
+            top: 250px;
+            width: 150px;
+
+
+            font-family: fantasy;
+            font-size: 30px;
+            border: solid 2px #000; 
+            background-color: lightgreen;
+            text-align: center;
         }
     </style>
 </head>
 
-<body>
-    <h1> Eat'em All! </h1>
+<body style="background-color: darkgrey;">
+    <div class="title">
+        <h1> Eat'em All! </h1>
+    </div>
+
+    <div id="scoreTxt">
+        Score: 0
+    </div>
+
+    <div id="healthTxt">
+        Health: 3
+    </div>
 
     <!-- Initializing the Game -->
     <script>
