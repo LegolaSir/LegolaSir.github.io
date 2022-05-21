@@ -129,6 +129,7 @@ let player = {
 
         if(this.health <= 0){
             this.health = 0;
+            healthTxt.style.backgroundColor = "#bd3038";
             this.setMaxScore();
         }
 
@@ -156,10 +157,9 @@ let player = {
     setMaxScore: function(){
         if(this.maxScore < this.score){
             this.maxScore = this.score;
-            localStorage.setItem(HIGHSCORE_NAME, this.maxScore);
-
-             highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
-        }
+            localStorage.setItem(HIGHSCORE_NAME, this.maxScore);  
+            highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
+        }   
     }
 };
 
@@ -296,6 +296,9 @@ function main(){
         scoreTxt = document.getElementById("scoreTxt");
         healthTxt = document.getElementById("healthTxt");
         highscoreTxt = document.getElementById("highscoreTxt");
+
+        // Writing the current HighScore saved on 'Browser's localStorage' 
+        highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
     });
 
 
@@ -334,7 +337,8 @@ function run(){
 function update(){
     // Calling Player Movement Function
     player.control();
-    
+    console.log(localStorage.getItem(HIGHSCORE_NAME))
+
     spawnCollectiblesByDelay();
     fruits.applyGravity();
     fruits.gatheredByPlayer();
