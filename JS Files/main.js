@@ -3,6 +3,7 @@ let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
+let gameOver = false;
 
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
@@ -131,6 +132,7 @@ let player = {
             this.health = 0;
             healthTxt.style.backgroundColor = "#bd3038";
             this.setMaxScore();
+            gameOver = true;
         }
 
         healthTxt.innerHTML = `Health: ${this.health}`;
@@ -155,7 +157,7 @@ let player = {
     },
 
     setMaxScore: function(){
-        if(this.maxScore < this.score){
+        if(localStorage.getItem(HIGHSCORE_NAME) < this.score){
             this.maxScore = this.score;
             localStorage.setItem(HIGHSCORE_NAME, this.maxScore);  
             highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
@@ -328,8 +330,13 @@ function main(){
 }
 
 function run(){
-    update();
-    draw();
+    if(!gameOver){
+        update();
+        draw();
+    }
+    else{ // If 'Game Over' Status is reached by 'Player'
+        drawGameOverWindow();
+    }
 
     window.requestAnimationFrame(run);
 }
@@ -337,7 +344,6 @@ function run(){
 function update(){
     // Calling Player Movement Function
     player.control();
-    console.log(localStorage.getItem(HIGHSCORE_NAME))
 
     spawnCollectiblesByDelay();
     fruits.applyGravity();
@@ -380,4 +386,10 @@ function spawnCollectiblesByDelay(){
     else if(fruits.timer > 0){
         fruits.timer--;
     }
+}
+
+function drawGameOverWindow(){
+    context.clearRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
+    setCanvasBGColor("#674d69");
+    /* COLOCAR UM TEXTO AQUI || GIF || IMG (se vira) */
 }
