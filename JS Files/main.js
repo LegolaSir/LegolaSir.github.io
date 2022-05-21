@@ -2,10 +2,11 @@
 let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
-let scoreTxt, healthTxt;
+let scoreTxt, healthTxt, highscoreTxt;
 
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
+const HIGHSCORE_NAME = "highscore";
 
 let keyLabels = {
     left: "left", 
@@ -121,6 +122,44 @@ let player = {
             this.belly.xRight = WIN_WIDTH - wR;
             this.belly.xLeft = WIN_WIDTH - 50;
         }
+    },
+
+    loseHealth: function(){
+        this.health -= 1;
+
+        if(this.health <= 0){
+            this.health = 0;
+            this.setMaxScore();
+        }
+
+        healthTxt.innerHTML = `Health: ${this.health}`;
+    },
+    
+    setScore: function(){
+        this.score += 1;
+        scoreTxt.innerHTML = `Score: ${this.score}`;
+        
+        // Maximum Bellies' Width Size
+        if(this.belly.widthLeft <= -50 && this.belly.widthRight >= 75){
+            this.belly.widthLeft = -50;
+            this.belly.widthRight = 75;
+            this.speed = this.defaultSpeed / 4;
+        }
+        else if(this.belly.widthLeft > -50 && this.belly.widthRight < 75)
+        {
+            this.belly.widthLeft -= 1;
+            this.belly.widthRight += 1;
+            this.speed -= (this.defaultSpeed/25) / 4;
+        }
+    },
+
+    setMaxScore: function(){
+        if(this.maxScore < this.score){
+            this.maxScore = this.score;
+            localStorage.setItem(HIGHSCORE_NAME, this.maxScore);
+
+             highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
+        }
     }
 };
 
@@ -187,7 +226,8 @@ let fruits = {
                 player.y + player.height > item.y // BOTTOM
             ){
                 this.destroyOnCollision(item);
-                this.playerScore(item);
+                this.gatherGreenCollectible(item);
+                this.gatherRedCollectible(item);
                 this.setDelay();
             }
     },
@@ -200,7 +240,8 @@ let fruits = {
             player.belly.y + player.belly.y > item.y // BOTTOM
         ){
             this.destroyOnCollision(item);
-            this.playerScore(item);
+            this.gatherGreenCollectible(item);
+            this.gatherRedCollectible(item);
             this.setDelay();
         }
     },
@@ -213,7 +254,8 @@ let fruits = {
             player.belly.y + player.belly.y > item.y // BOTTOM
         ){
             this.destroyOnCollision(item);
-            this.playerScore(item);
+            this.gatherGreenCollectible(item);
+            this.gatherRedCollectible(item);
             this.setDelay();
         }
     },
@@ -226,28 +268,20 @@ let fruits = {
         }
     },
 
-    playerScore: function(item){
+    gatherGreenCollectible: function(item){
         if(item.hue == "#36802d"){ // 'Green' Colour
-            player.score += 1;
-            scoreTxt.innerHTML = `Score: ${player.score}`;
-            
-            // Maximum Bellies' Width Size
-            if(player.belly.widthLeft <= -50 && player.belly.widthRight >= 75){
-                player.belly.widthLeft = -50;
-                player.belly.widthRight = 75;
-                player.speed = player.defaultSpeed / 4;
-            }
-            else if(player.belly.widthLeft > -50 && player.belly.widthRight < 75)
-            {
-                player.belly.widthLeft -= 1;
-                player.belly.widthRight += 1;
-                player.speed -= (player.defaultSpeed/25) / 4;
-            }
+            player.setScore();
+        }
+    },
+
+    gatherRedCollectible: function(item){
+        if(item.hue == "#bd3038"){ // 'Red' Colour
+            player.loseHealth();
         }
     },
 
     setDelay: function(){
-        this.delay += 5.5;
+        this.delay += 1.5;
 
         if(this.delay >= 100){
             this.delay = 100;
@@ -261,6 +295,7 @@ function main(){
     document.addEventListener("DOMContentLoaded", () =>{
         scoreTxt = document.getElementById("scoreTxt");
         healthTxt = document.getElementById("healthTxt");
+        highscoreTxt = document.getElementById("highscoreTxt");
     });
 
 
