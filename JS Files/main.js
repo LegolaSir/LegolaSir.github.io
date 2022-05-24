@@ -342,7 +342,6 @@ function run(){
 }
 
 function update(){
-    // Calling Player Movement Function
     player.control();
 
     spawnCollectiblesByDelay();
