@@ -6,21 +6,28 @@
     <title> Projeto Final </title>
     <script src="JS Files/main.js"></script>
     <style>
-        canvas{
-            position: absolute;
-            margin: auto;
-            top: 0px;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-        }
-
         .title{
             position: relative;
             height: 200px;
 
             display: flex;
             justify-content: center;
+        }
+
+        .keyImgs{
+            position: absolute;
+            width: 95%;
+            bottom: 15%;
+            z-index: 1;
+        }
+
+        canvas{
+            position: absolute;
+            margin: auto;
+            top: 0%;
+            bottom: 0%;
+            left: 0%;
+            right: 0%;
         }
 
         h1{
@@ -83,6 +90,13 @@
             background-color: goldenrod;
             text-align: center;
         }
+
+        #keyA{
+            position: relative;
+            width: 40px;
+            height: auto;
+            left: 30%;
+        }
     </style>
 </head>
 
@@ -101,6 +115,10 @@
 
     <div id="highscoreTxt">
         Record: 0
+    </div>
+
+    <div class="keyImgs">
+        <img id="keyA" src="IMGs/A-Key Released.png">
     </div>
 
     <!-- Initializing the Game -->
