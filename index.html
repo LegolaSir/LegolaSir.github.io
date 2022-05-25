@@ -6,6 +6,20 @@
     <title> Projeto Final </title>
     <script src="JS Files/main.js"></script>
     <style>
+        .container{
+            position: fixed;
+            margin: auto;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+
+            width: 80%;
+            height: 85vh;
+            border: dashed coral 5px;
+        }
+
+
         .title{
             position: relative;
             height: 200px;
@@ -14,25 +28,18 @@
             justify-content: center;
         }
 
-        .keyImgs{
-            position: absolute;
-            width: 95%;
-            bottom: 15%;
-            z-index: 1;
-        }
-
         canvas{
-            position: absolute;
+            position: fixed;
             margin: auto;
-            top: 0%;
-            bottom: 0%;
-            left: 0%;
-            right: 0%;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
         }
 
         h1{
-           position: absolute;
-           margin: auto;
+           position: fixed;
+           margin: 30px;
            padding-left: 20%;
            padding-right: 20%;
 
@@ -44,11 +51,11 @@
         }
 
         #scoreTxt{
-            position: absolute;
+            position: fixed;
             margin: 30px;
             padding: 50px;
-            left: 5%;
-            top: 10%;
+            left: 15%;
+            top: 25%;
             width: 150px;
 
 
@@ -60,11 +67,11 @@
         }
 
         #healthTxt{
-            position: absolute;
+            position: fixed;
             margin: 30px;
             padding: 50px;
-            right: 5%;
-            top: 10%;
+            right: 15%;
+            top: 25%;
             width: 150px;
 
 
@@ -76,11 +83,11 @@
         }
 
         #highscoreTxt{
-            position: absolute;
+            position: fixed;
             margin: 30px;
             padding: 20px;
-            left: 7.5%;
-            top: 30%;
+            left: 16.5%;
+            top: 36%;
             width: 150px;
 
 
@@ -90,35 +97,26 @@
             background-color: goldenrod;
             text-align: center;
         }
-
-        #keyA{
-            position: relative;
-            width: 40px;
-            height: auto;
-            left: 30%;
-        }
     </style>
 </head>
 
 <body style="background-color: darkgrey;">
-    <div class="title">
-        <h1> Eat'em All! </h1>
-    </div>
+    <div class="container">
+        <div class="title">
+            <h1> Eat'em All! </h1>
+        </div>
 
-    <div id="scoreTxt">
-        Score: 0
-    </div>
+        <div id="scoreTxt">
+            Score: 0
+        </div>
 
-    <div id="healthTxt">
-        Health: 3
-    </div>
+        <div id="highscoreTxt">
+            Record: 0
+        </div>
 
-    <div id="highscoreTxt">
-        Record: 0
-    </div>
-
-    <div class="keyImgs">
-        <img id="keyA" src="IMGs/A-Key Released.png">
+        <div id="healthTxt">
+            Health: 3
+        </div>
     </div>
 
     <!-- Initializing the Game -->
