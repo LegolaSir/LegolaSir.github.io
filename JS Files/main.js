@@ -4,7 +4,6 @@ let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
-let test;
 
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
@@ -382,6 +381,7 @@ function setCanvasBGColor(color){
 function spawnCollectiblesByDelay(){
     if(fruits.timer <= 0){
         fruits.spawn();
+        console.log(fruits.timer)
     }
     else if(fruits.timer > 0){
         fruits.timer--;
