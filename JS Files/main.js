@@ -298,7 +298,7 @@ function main(){
         scoreTxt = document.getElementById("scoreTxt");
         healthTxt = document.getElementById("healthTxt");
         highscoreTxt = document.getElementById("highscoreTxt");
-        test = document.getElementsByClassName("highscoreTxt");
+
         // Writing the current HighScore saved on 'Browser's localStorage' 
         highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
     });
@@ -381,7 +381,6 @@ function setCanvasBGColor(color){
 function spawnCollectiblesByDelay(){
     if(fruits.timer <= 0){
         fruits.spawn();
-        console.log(fruits.timer)
     }
     else if(fruits.timer > 0){
         fruits.timer--;
