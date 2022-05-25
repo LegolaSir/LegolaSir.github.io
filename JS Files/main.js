@@ -4,6 +4,7 @@ let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
+let test;
 
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
@@ -298,7 +299,7 @@ function main(){
         scoreTxt = document.getElementById("scoreTxt");
         healthTxt = document.getElementById("healthTxt");
         highscoreTxt = document.getElementById("highscoreTxt");
-
+        test = document.getElementsByClassName("highscoreTxt");
         // Writing the current HighScore saved on 'Browser's localStorage' 
         highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
     });

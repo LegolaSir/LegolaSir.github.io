@@ -6,42 +6,37 @@
     <title> Projeto Final </title>
     <script src="JS Files/main.js"></script>
     <style>
-        .container{
-            position: fixed;
-            margin: auto;
-            top: 0px;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-
-            width: 80%;
-            height: 85vh;
-            border: dashed coral 5px;
+        body{
+            height: 100%;
         }
 
-
         .title{
-            position: relative;
-            height: 200px;
-
+            position: fixed;
             display: flex;
             justify-content: center;
+            height: 100px;
+            
+            top: 0px;
+            left: 0px;
+            right: 0px;
         }
 
         canvas{
             position: fixed;
             margin: auto;
-            top: 0px;
-            bottom: 0px;
+
+            top: 125px;
             left: 0px;
             right: 0px;
-        }
 
+            z-index: -2;
+        }
+        
         h1{
-           position: fixed;
-           margin: 30px;
-           padding-left: 20%;
-           padding-right: 20%;
+           position: relative;
+           margin: auto;
+           padding-left: 250px;
+           padding-right: 250px;
 
            font-family: 'Trebuchet MS';
            font-size: 36px;
@@ -54,8 +49,8 @@
             position: fixed;
             margin: 30px;
             padding: 50px;
-            left: 15%;
-            top: 25%;
+            left: 50px;
+            top: 150px;
             width: 150px;
 
 
@@ -70,8 +65,8 @@
             position: fixed;
             margin: 30px;
             padding: 50px;
-            right: 15%;
-            top: 25%;
+            right: 50px;
+            top: 150px;
             width: 150px;
 
 
@@ -86,8 +81,8 @@
             position: fixed;
             margin: 30px;
             padding: 20px;
-            left: 16.5%;
-            top: 36%;
+            left: 80px;
+            top: 250px;
             width: 150px;
 
 
@@ -101,23 +96,21 @@
 </head>
 
 <body style="background-color: darkgrey;">
-    <div class="container">
         <div class="title">
             <h1> Eat'em All! </h1>
         </div>
-
+    
         <div id="scoreTxt">
             Score: 0
         </div>
-
+        
         <div id="highscoreTxt">
             Record: 0
         </div>
-
+    
         <div id="healthTxt">
             Health: 3
-        </div>
-    </div>
+        </div> 
 
     <!-- Initializing the Game -->
     <script>
