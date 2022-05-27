@@ -6,9 +6,12 @@ let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
 
 let keyA_image = new Image();
+let keyD_image = new Image();
 let keysURL = [
     "../IMGs/A-Key Released.png",
-    "../IMGs/A-Key Pressed.png"
+    "../IMGs/A-Key Pressed.png",
+    "../IMGs/D-Key Released.png",
+    "../IMGs/D-Key Pressed.png"
 ];
 
 const FRUIT_WIDTH = 25;
@@ -88,6 +91,7 @@ let player = {
                 this.x += this.speed;
                 this.belly.xLeft += this.speed;
                 this.belly.xRight += this.speed;
+                changeControlKeySprite(keyD_image, keysURL[3]);
             }
             else if(held_key === keyLabels.left){
                 this.x -= this.speed;
@@ -400,10 +404,12 @@ function drawFixedElementsOnCanvas(){
     keyA_image.onload = function(){
         setCanvasBGColor("#674d69");
         floor.draw();
-        context.drawImage(keyA_image, 20, 385, 50, 50);
+        context.drawImage(keyA_image, 20, WIN_HEIGHT-65, 50, 50);
+        context.drawImage(keyD_image, WIN_WIDTH-80, WIN_HEIGHT-65, 50, 50);
     }
 
     changeControlKeySprite(keyA_image, keysURL[0]);
+    changeControlKeySprite(keyD_image, keysURL[2]);
 }
 
 function changeControlKeySprite(img, url){
