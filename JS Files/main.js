@@ -5,6 +5,12 @@ let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
 
+let keyA_image = new Image();
+let keysURL = [
+    "../IMGs/A-Key Released.png",
+    "../IMGs/A-Key Pressed.png"
+];
+
 const FRUIT_WIDTH = 25;
 const FRUIT_HEIGHT = 25;
 const HIGHSCORE_NAME = "highscore";
@@ -87,6 +93,7 @@ let player = {
                 this.x -= this.speed;
                 this.belly.xLeft -= this.speed;
                 this.belly.xRight -= this.speed;
+                changeControlKeySprite(keyA_image, keysURL[1]);
             }
         }
 
@@ -303,7 +310,6 @@ function main(){
         highscoreTxt.innerHTML = `Record: ${localStorage.getItem(HIGHSCORE_NAME)}`;
     });
 
-
     let canvas = document.createElement("canvas");
     setCanvasSize(canvas);
     canvas.style.border = "solid 10px black";
@@ -331,8 +337,8 @@ function main(){
 
 function run(){
     if(!gameOver){
-        update();
         draw();
+        update();
     }
     else{ // If 'Game Over' Status is reached by 'Player'
         drawGameOverWindow();
@@ -349,11 +355,8 @@ function update(){
     fruits.gatheredByPlayer();
 }
 
-function draw(){
-    setCanvasBGColor("#674d69");
-
-    // Calling Draw Functions of Game Elements
-    floor.draw();
+function draw(){   
+    drawFixedElementsOnCanvas(); 
     player.draw();
     fruits.draw();
 }
@@ -391,4 +394,18 @@ function drawGameOverWindow(){
     context.clearRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
     setCanvasBGColor("#674d69");
     /* COLOCAR UM TEXTO AQUI || GIF || IMG (se vira) */
+}
+
+function drawFixedElementsOnCanvas(){
+    keyA_image.onload = function(){
+        setCanvasBGColor("#674d69");
+        floor.draw();
+        context.drawImage(keyA_image, 20, 385, 50, 50);
+    }
+
+    changeControlKeySprite(keyA_image, keysURL[0]);
+}
+
+function changeControlKeySprite(img, url){
+    img.src = url;
 }
