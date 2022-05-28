@@ -7,6 +7,8 @@ let gameOver = false;
 
 let keyA_image = new Image();
 let keyD_image = new Image();
+let refresh_icon = new Image();
+
 let keysURL = [
     "../IMGs/A-Key Released.png",
     "../IMGs/A-Key Pressed.png",
@@ -336,6 +338,20 @@ function main(){
         }
     });
 
+    canvas.addEventListener("click", (e) => {
+        let mousePos = getMousePosition(canvas, e);
+        let checkedMousePos = isMouseOnRightPlace(mousePos, 230, 200, 150, 150);
+
+        if(gameOver &&  checkedMousePos){
+            console.log("ACERTOU")
+        }
+        else{
+            console.log("FORA DA CONDICAO")
+        }
+
+        console.log(mousePos);
+    });
+
     run();
 }
 
@@ -395,9 +411,17 @@ function spawnCollectiblesByDelay(){
 }
 
 function drawGameOverWindow(){
-    context.clearRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
-    setCanvasBGColor("#674d69");
-    /* COLOCAR UM TEXTO AQUI || GIF || IMG (se vira) */
+    refresh_icon.onload = () => {
+        context.clearRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
+        setCanvasBGColor("#674d69");
+
+        writeGameOverText("You had enough", "black");
+        drawIconBackground(230, 200, 150, 150, "skyblue", 5);
+
+        context.drawImage(refresh_icon, 230, 200, 150, 150);
+    }
+
+    refresh_icon.src = "../IMGs/Refresh Icon.png";
 }
 
 function drawFixedElementsOnCanvas(){
@@ -414,4 +438,33 @@ function drawFixedElementsOnCanvas(){
 
 function changeControlKeySprite(img, url){
     img.src = url;
+}
+
+function writeGameOverText(msg, color){
+    context.font = "54px fantasy";
+    context.fillStyle = color;
+    context.fillText(msg, 140, 150);
+}
+
+function drawIconBackground(x, y, w, h, color, strokeWidth){
+    context.fillStyle = color;
+    context.lineWidth = strokeWidth;
+    context.fillRect(x, y, w, h);
+    context.strokeRect(x, y, w, h);
+}
+
+function getMousePosition(canvas, evt){
+    let rect = canvas.getBoundingClientRect();
+
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
+
+function isMouseOnRightPlace(mousePos, x, y, w, h){
+    return (
+        mousePos.x > x && mousePos.x < x + w && 
+        mousePos.y < y + h && mousePos.y > y
+    );
 }
