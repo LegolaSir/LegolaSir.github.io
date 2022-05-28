@@ -17,6 +17,11 @@
             right: 0px;
         }
 
+        .container{
+            position: absolute;
+            text-align: center;
+        }
+
         .btn_img{
             position: relative;
             margin: auto;
@@ -25,6 +30,18 @@
 
             width: 200px;
             height: auto;
+        }
+
+        .btn_text{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            font-family: fantasy;
+            font-size: 36px;
+            color: black;
+            user-select: none;
         }
 
         h1{
@@ -41,7 +58,6 @@
         }
 
         #fakeCanvas{
-            display: flex;
             position: fixed;
             margin: auto;
             top: 125px;
@@ -55,13 +71,15 @@
             background-color: #ff7c70;
             border: solid black 10px;
         }
-        
-        #startBtn{
-            top: 0px;
+
+        #startGroup{
+            top: 180px;
+            left: 50px;
         }
 
-        #exitBtn{
-            top: 0px;
+        #exitGroup{
+            top: 180px;
+            right: 50px;
         }
     </style>
 </head>
@@ -72,17 +90,23 @@
     </div>
     
     <div id="fakeCanvas">
-        <img class="btn_img" id="startBtn" 
+        <div class="container" id="startGroup">
+            <img class="btn_img" id="startBtn" 
             src="IMGs/Idle Button.png" 
             onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
             onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
-        />
+            />
+            <div class="btn_text"> START </div>
+        </div>
 
-        <img class="btn_img" id="exitBtn" 
+        <div class="container" id="exitGroup">
+            <img class="btn_img" id="exitBtn" 
             src="IMGs/Idle Button.png"
             onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
             onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
-        />
+            />
+            <div class="btn_text"> EXIT </div>
+        </div>
     </div>
 </body>
 
