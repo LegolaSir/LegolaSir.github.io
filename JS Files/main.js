@@ -304,6 +304,23 @@ let fruits = {
     }
 }
 
+let iconBackground = {
+    x: 230,
+    y: 200,
+    width: 150,
+    height: 150,
+    color: "skyblue",
+    strokeWidth: 5,
+
+    draw: function(){
+        context.clearRect(this.x, this.y, this.width, this.height);
+        context.fillStyle = this.color;
+        context.lineWidth = this.strokeWidth;
+        context.fillRect(this.x, this.y, this.width, this.height);
+        context.strokeRect(this.x, this.y, this.width, this.height); 
+    }
+}
+
 /* Main Methods */
 function main(){
     // Waiting the HTML File to complete loading to access <div> elements on screen
@@ -323,6 +340,7 @@ function main(){
     context = canvas.getContext('2d');
     document.body.appendChild(canvas);
 
+    /* Checking Player Interaction [Character Movement by Keys] */
     document.addEventListener("keydown", (e) => {
         let dir = keyMap[e.which];
         if(dir && heldKeys.indexOf(dir) == -1){
@@ -338,18 +356,26 @@ function main(){
         }
     });
 
+    /* Checking Player Interaction [Mouse inside Canvas] */
     canvas.addEventListener("click", (e) => {
         let mousePos = getMousePosition(canvas, e);
-        let checkedMousePos = isMouseOnRightPlace(mousePos, 230, 200, 150, 150);
+        let checkedMousePos = isMouseOnRightPlace(mousePos, iconBackground.x, iconBackground.y, iconBackground.width, iconBackground.height);
 
-        if(gameOver &&  checkedMousePos){
-            console.log("ACERTOU")
+        if(gameOver && checkedMousePos){
+            document.location.reload();
         }
-        else{
-            console.log("FORA DA CONDICAO")
-        }
+    });
 
-        console.log(mousePos);
+    canvas.addEventListener("mousemove", (e) =>{
+        let mousePos = getMousePosition(canvas, e);
+        let checkedMousePos = isMouseOnRightPlace(mousePos, iconBackground.x, iconBackground.y, iconBackground.width, iconBackground.height);
+        
+        if(gameOver && checkedMousePos){
+            iconBackground.color = "goldenrod";
+        }
+        else if(gameOver && !checkedMousePos){
+            iconBackground.color = "skyblue";
+        }
     });
 
     run();
@@ -416,7 +442,7 @@ function drawGameOverWindow(){
         setCanvasBGColor("#674d69");
 
         writeGameOverText("You had enough", "black");
-        drawIconBackground(230, 200, 150, 150, "skyblue", 5);
+        iconBackground.draw();
 
         context.drawImage(refresh_icon, 230, 200, 150, 150);
     }
@@ -444,13 +470,6 @@ function writeGameOverText(msg, color){
     context.font = "54px fantasy";
     context.fillStyle = color;
     context.fillText(msg, 140, 150);
-}
-
-function drawIconBackground(x, y, w, h, color, strokeWidth){
-    context.fillStyle = color;
-    context.lineWidth = strokeWidth;
-    context.fillRect(x, y, w, h);
-    context.strokeRect(x, y, w, h);
 }
 
 function getMousePosition(canvas, evt){
