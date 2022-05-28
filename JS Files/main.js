@@ -3,7 +3,7 @@ let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
-let gameOver = false;
+let gameOver = true;
 
 let keyA_image = new Image();
 let keyD_image = new Image();
@@ -311,11 +311,15 @@ let iconBackground = {
     height: 150,
     color: "skyblue",
     strokeWidth: 5,
+    strokeColor: "black",
 
     draw: function(){
         context.clearRect(this.x, this.y, this.width, this.height);
+
         context.fillStyle = this.color;
+        context.strokeStyle = this.strokeColor;
         context.lineWidth = this.strokeWidth;
+
         context.fillRect(this.x, this.y, this.width, this.height);
         context.strokeRect(this.x, this.y, this.width, this.height); 
     }
@@ -356,7 +360,7 @@ function main(){
         }
     });
 
-    /* Checking Player Interaction [Mouse inside Canvas] */
+    /* Checking Player Interaction [Mouse inside Canvas, for Restart Button] */
     canvas.addEventListener("click", (e) => {
         let mousePos = getMousePosition(canvas, e);
         let checkedMousePos = isMouseOnRightPlace(mousePos, iconBackground.x, iconBackground.y, iconBackground.width, iconBackground.height);
@@ -437,17 +441,21 @@ function spawnCollectiblesByDelay(){
 }
 
 function drawGameOverWindow(){
+    let bg_img = new Image();
+
     refresh_icon.onload = () => {
         context.clearRect(0, 0, WIN_WIDTH, WIN_HEIGHT);
         setCanvasBGColor("#674d69");
 
-        writeGameOverText("You had enough", "black");
+        writeText("You had enough", "#bd3038", 3, "black");
         iconBackground.draw();
 
         context.drawImage(refresh_icon, 230, 200, 150, 150);
+        context.drawImage(bg_img, 0, 0)
     }
 
     refresh_icon.src = "../IMGs/Refresh Icon.png";
+    bg_img.src = "../IMGs/GameOverBackground.png";
 }
 
 function drawFixedElementsOnCanvas(){
@@ -466,10 +474,14 @@ function changeControlKeySprite(img, url){
     img.src = url;
 }
 
-function writeGameOverText(msg, color){
+function writeText(msg, color, strokeWidth, strokeColor){
     context.font = "54px fantasy";
     context.fillStyle = color;
+    context.strokeStyle = strokeColor;
+    context.lineWidth = strokeWidth;
+
     context.fillText(msg, 140, 150);
+    context.strokeText(msg, 140, 150);
 }
 
 function getMousePosition(canvas, evt){
