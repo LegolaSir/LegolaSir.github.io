@@ -100,8 +100,8 @@
         <div class="container" id="startGroup">
             <img class="btn_img" id="startBtn" 
             src="IMGs/Idle Button.png" 
-            onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
-            onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
+            onmouseenter="changeMenuButtonSprite(this.id, true)"
+            onmouseleave="changeMenuButtonSprite(this.id, false)"
             onclick="window.open('game.html')"
             />
 
@@ -111,9 +111,9 @@
         <div class="container" id="exitGroup">
             <img class="btn_img" id="exitBtn" 
             src="IMGs/Idle Button.png"
-            onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
-            onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
-            onclick="window.close()"
+            onmouseenter="changeMenuButtonSprite(this.id, true)"
+            onmouseleave="changeMenuButtonSprite(this.id, false)"
+            onclick="window.close('Menu Inicial')"
             />
 
             <div class="btn_text"> EXIT </div>

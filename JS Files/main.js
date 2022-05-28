@@ -500,17 +500,23 @@ function isMouseOnRightPlace(mousePos, x, y, w, h){
     );
 }
 
-function changeMenuButtonSprite(button_id, url){
+function changeMenuButtonSprite(button_id, isMouseOver){
     let startBtn, exitBtn;
 
     startBtn = document.getElementById("startBtn");
     exitBtn = document.getElementById("exitBtn");
 
-    if(startBtn.id === button_id){
-        startBtn.setAttribute("src", url);
+    if(startBtn.id === button_id && isMouseOver){
+        startBtn.setAttribute("src", "../IMGs/Selected Button.png");
+    }
+    else{
+        startBtn.setAttribute("src", "../IMGs/Idle Button.png");
     }
         
-    if(exitBtn.id === button_id){
-        exitBtn.setAttribute("src", url);
+    if(exitBtn.id === button_id && isMouseOver){
+        exitBtn.setAttribute("src", "../IMGs/Selected Button.png");
+    }
+    else{
+        exitBtn.setAttribute("src", "../IMGs/Idle Button.png");
     }
 }
