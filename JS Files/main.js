@@ -503,9 +503,11 @@ function isMouseOnRightPlace(mousePos, x, y, w, h){
 function changeMenuButtonSprite(button_id, url){
     let startBtn, exitBtn;
 
-    startBtn = document.getElementById("startBtn");
-    exitBtn = document.getElementById("exitBtn");
-    
+    document.addEventListener("DOMContentLoaded", () => {
+        startBtn = document.getElementById("startBtn");
+        exitBtn = document.getElementById("exitBtn");
+    });
+
     if(startBtn.id === button_id){
         startBtn.setAttribute("src", url);
     }
