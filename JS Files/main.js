@@ -52,8 +52,8 @@ let player = {
     width: 50,
     height: 50,
     color: "#ff7c70",
-    defaultSpeed: 6,
-    speed: 6,
+    defaultSpeed: 3,
+    speed: 3,
     score: 0,
     maxScore: 0,
     health: 3,
@@ -145,6 +145,7 @@ let player = {
             healthTxt.style.backgroundColor = "#bd3038";
             this.setMaxScore();
             gameOver = true;
+            playAnyAudioFile("../SFXs/Game Over Soundtrack.mp3", 0.5);
         }
 
         healthTxt.innerHTML = `Health: ${this.health}`;
@@ -285,12 +286,20 @@ let fruits = {
     gatherGreenCollectible: function(item){
         if(item.hue == "#36802d"){ // 'Green' Colour
             player.setScore();
+
+            if(player.score > localStorage.getItem(HIGHSCORE_NAME)){
+                playAnyAudioFile("../SFXs/New Record SFX.wav", 0.2);
+            }
+            else{
+                playAnyAudioFile("../SFXs/Green Collectible SFX.wav", 1);
+            }
         }
     },
 
     gatherRedCollectible: function(item){
         if(item.hue == "#bd3038"){ // 'Red' Colour
             player.loseHealth();
+            playAnyAudioFile("../SFXs/Red Collectible SFX.wav", 0.5);
         }
     },
 
@@ -518,5 +527,14 @@ function changeMenuButtonSprite(button_id, isMouseOver){
     }
     else{
         exitBtn.setAttribute("src", "../IMGs/Idle Button.png");
+    }
+}
+
+function playAnyAudioFile(url, volume){
+    let audio = new Audio(url);
+
+    audio.oncanplay = () => {
+        audio.volume = volume;
+        audio.play();
     }
 }
