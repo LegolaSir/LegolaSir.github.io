@@ -503,16 +503,16 @@ function isMouseOnRightPlace(mousePos, x, y, w, h){
 function changeMenuButtonSprite(button_id, url){
     let startBtn, exitBtn;
 
-    document.addEventListener("DOMContentLoaded", () => {
-        startBtn = document.getElementById("startBtn");
-        exitBtn = document.getElementById("exitBtn");
-    });
+    startBtn = document.getElementById("startBtn");
+    exitBtn = document.getElementById("exitBtn");
 
-    if(startBtn.id === button_id){
-        startBtn.setAttribute("src", url);
-    }
-
-    if(exitBtn.id === button_id){
-        exitBtn.setAttribute("src", url);
+    startBtn.onload = () => {
+        if(startBtn.id === button_id){
+            startBtn.setAttribute("src", url);
+        }
+        
+        if(exitBtn.id === button_id){
+            exitBtn.setAttribute("src", url);
+        }
     }
 }
