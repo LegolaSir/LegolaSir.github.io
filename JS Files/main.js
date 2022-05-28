@@ -3,11 +3,10 @@ let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
-let gameOver = true;
+let gameOver = false;
 
 let keyA_image = new Image();
 let keyD_image = new Image();
-let refresh_icon = new Image();
 
 let keysURL = [
     "../IMGs/A-Key Released.png",
@@ -441,6 +440,7 @@ function spawnCollectiblesByDelay(){
 }
 
 function drawGameOverWindow(){
+    let refresh_icon = new Image();
     let bg_img = new Image();
 
     refresh_icon.onload = () => {
@@ -498,4 +498,19 @@ function isMouseOnRightPlace(mousePos, x, y, w, h){
         mousePos.x > x && mousePos.x < x + w && 
         mousePos.y < y + h && mousePos.y > y
     );
+}
+
+function changeMenuButtonSprite(button_id, url){
+    let startBtn, exitBtn;
+
+    startBtn = document.getElementById("startBtn");
+    exitBtn = document.getElementById("exitBtn");
+    
+    if(startBtn.id === button_id){
+        startBtn.setAttribute("src", url);
+    }
+
+    if(exitBtn.id === button_id){
+        exitBtn.setAttribute("src", url);
+    }
 }

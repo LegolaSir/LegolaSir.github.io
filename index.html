@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Projeto Final </title>
+    <title> Menu Inicial </title>
     <script src="JS Files/main.js"></script>
     <style>
         .title{
@@ -17,21 +17,16 @@
             right: 0px;
         }
 
-        body{
-            height: 100%;
-        }
-
-        canvas{
-            position: fixed;
+        .btn_img{
+            position: relative;
             margin: auto;
-
-            top: 125px;
             left: 0px;
             right: 0px;
 
-            z-index: -2;
+            width: 200px;
+            height: auto;
         }
-        
+
         h1{
            position: relative;
            margin: auto;
@@ -45,77 +40,50 @@
            background-color: lightgrey;
         }
 
-        #scoreTxt{
+        #fakeCanvas{
+            display: flex;
             position: fixed;
-            margin: 30px;
-            padding: 50px;
-            left: 50px;
-            top: 150px;
-            width: 150px;
+            margin: auto;
+            top: 125px;
+            left: 0px;
+            right: 0px;
+            z-index: -2;
 
+            width: 600px;
+            height: 450px;
 
-            font-family: fantasy;
-            font-size: 30px;
-            border: solid 2px #000;
-            background-color: skyblue;
-            text-align: center;
+            background-color: #ff7c70;
+            border: solid black 10px;
+        }
+        
+        #startBtn{
+            top: 0px;
         }
 
-        #healthTxt{
-            position: fixed;
-            margin: 30px;
-            padding: 50px;
-            right: 50px;
-            top: 150px;
-            width: 150px;
-
-
-            font-family: fantasy;
-            font-size: 30px;
-            border: solid 2px #000; 
-            background-color: lightgreen;
-            text-align: center;
-        }
-
-        #highscoreTxt{
-            position: fixed;
-            margin: 30px;
-            padding: 20px;
-            left: 80px;
-            top: 250px;
-            width: 150px;
-
-
-            font-family: fantasy;
-            font-size: 24px;
-            border: solid 2px #000;
-            background-color: goldenrod;
-            text-align: center;
+        #exitBtn{
+            top: 0px;
         }
     </style>
 </head>
 
 <body style="background-color: darkgrey;">
-        <div class="title">
-            <h1> Eat'em All! </h1>
-        </div>
+    <div class="title">
+        <h1> Eat'em All! </h1>
+    </div>
     
-        <div id="scoreTxt">
-            Score: 0
-        </div>
-        
-        <div id="highscoreTxt">
-            Record: 0
-        </div>
-    
-        <div id="healthTxt">
-            Health: 3
-        </div> 
-        
-    <!-- Initializing the Game -->
-    <script>
-        main();
-    </script>
+    <div id="fakeCanvas">
+        <img class="btn_img" id="startBtn" 
+            src="IMGs/Idle Button.png" 
+            onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
+            onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
+        />
+
+        <img class="btn_img" id="exitBtn" 
+            src="IMGs/Idle Button.png"
+            onmouseenter="changeMenuButtonSprite(this.id, '../IMGs/Selected Button.png')"
+            onmouseleave="changeMenuButtonSprite(this.id, '../IMGs/Idle Button.png')"
+        />
+    </div>
 </body>
 
 </html>

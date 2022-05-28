@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Projeto Final </title>
+    <script src="JS Files/main.js"></script>
+    <style>
+        .title{
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            height: 100px;
+            
+            top: 0px;
+            left: 0px;
+            right: 0px;
+        }
+
+        body{
+            background-color: darkgrey;
+            height: 100%;
+        }
+
+        canvas{
+            position: fixed;
+            margin: auto;
+
+            top: 125px;
+            left: 0px;
+            right: 0px;
+
+            z-index: -2;
+        }
+        
+        h1{
+           position: relative;
+           margin: auto;
+           padding-left: 250px;
+           padding-right: 250px;
+
+           font-family: 'Trebuchet MS';
+           font-size: 36px;
+           text-align: center;
+           border: solid 2px #000;
+           background-color: lightgrey;
+        }
+
+        #scoreTxt{
+            position: fixed;
+            margin: 30px;
+            padding: 50px;
+            left: 50px;
+            top: 150px;
+            width: 150px;
+
+
+            font-family: fantasy;
+            font-size: 30px;
+            border: solid 2px #000;
+            background-color: skyblue;
+            text-align: center;
+        }
+
+        #healthTxt{
+            position: fixed;
+            margin: 30px;
+            padding: 50px;
+            right: 50px;
+            top: 150px;
+            width: 150px;
+
+
+            font-family: fantasy;
+            font-size: 30px;
+            border: solid 2px #000; 
+            background-color: lightgreen;
+            text-align: center;
+        }
+
+        #highscoreTxt{
+            position: fixed;
+            margin: 30px;
+            padding: 20px;
+            left: 80px;
+            top: 250px;
+            width: 150px;
+
+
+            font-family: fantasy;
+            font-size: 24px;
+            border: solid 2px #000;
+            background-color: goldenrod;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+        <div class="title">
+            <h1> Eat'em All! </h1>
+        </div>
+    
+        <div id="scoreTxt">
+            Score: 0
+        </div>
+        
+        <div id="highscoreTxt">
+            Record: 0
+        </div>
+    
+        <div id="healthTxt">
+            Health: 3
+        </div> 
+        
+    <!-- Initializing the Game -->
+    <script>
+        main();
+    </script>
+</body>
+
+</html>
