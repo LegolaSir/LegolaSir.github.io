@@ -506,13 +506,11 @@ function changeMenuButtonSprite(button_id, url){
     startBtn = document.getElementById("startBtn");
     exitBtn = document.getElementById("exitBtn");
 
-    startBtn.onload = () => {
-        if(startBtn.id === button_id){
-            startBtn.setAttribute("src", url);
-        }
+    if(startBtn.id === button_id){
+        startBtn.setAttribute("src", url);
+    }
         
-        if(exitBtn.id === button_id){
-            exitBtn.setAttribute("src", url);
-        }
+    if(exitBtn.id === button_id){
+        exitBtn.setAttribute("src", url);
     }
 }
