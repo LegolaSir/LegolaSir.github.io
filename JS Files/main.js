@@ -295,7 +295,7 @@ let fruits = {
     },
 
     setDelay: function(){
-        this.delay += 1.5;
+        this.delay += 3.5;
 
         if(this.delay >= 100){
             this.delay = 100;
