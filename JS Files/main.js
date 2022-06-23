@@ -5,14 +5,25 @@ let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
 
+let img_loader = new Image();
 let keyA_image = new Image();
 let keyD_image = new Image();
 
-let keysURL = [
-    "../IMGs/A-Key Released.png",
-    "../IMGs/A-Key Pressed.png",
-    "../IMGs/D-Key Released.png",
-    "../IMGs/D-Key Pressed.png"
+let _keySprites = [
+    "../IMGs/Control Keys/A-Key Released.png",
+    "../IMGs/Control Keys/A-Key Pressed.png",
+    "../IMGs/Control Keys/D-Key Released.png",
+    "../IMGs/Control Keys/D-Key Pressed.png"
+];
+
+let _GameOverSprites = [
+    "../IMGs/GameOver Assets/GameOverBackground.png",
+    "../IMGs/GameOver Assets/Refresh Icon.png"
+];
+
+let _MenuSprites = [
+    "../IMGs/Menu Assets/Idle Button.png",
+    "../IMGs/Menu Assets/Selected Button.png"
 ];
 
 const FRUIT_WIDTH = 25;
@@ -92,13 +103,13 @@ let player = {
                 this.x += this.speed;
                 this.belly.xLeft += this.speed;
                 this.belly.xRight += this.speed;
-                changeControlKeySprite(keyD_image, keysURL[3]);
+                setImageSource(keyD_image, _keySprites[3]);
             }
             else if(held_key === keyLabels.left){
                 this.x -= this.speed;
                 this.belly.xLeft -= this.speed;
                 this.belly.xRight -= this.speed;
-                changeControlKeySprite(keyA_image, keysURL[1]);
+                setImageSource(keyA_image, _keySprites[1]);
             }
         }
 
@@ -413,10 +424,21 @@ function update(){
     fruits.gatheredByPlayer();
 }
 
-function draw(){   
-    drawFixedElementsOnCanvas(); 
-    player.draw();
-    fruits.draw();
+function draw(){ 
+    img_loader.onload = () => {
+        setCanvasBGColor("#674d69");
+        floor.draw();
+        fruits.draw();
+        player.draw();
+
+        // Drawing Control Keys on Canvas (above floor area)
+        context.drawImage(keyA_image, 20, WIN_HEIGHT-65, 50, 50);
+        context.drawImage(keyD_image, WIN_WIDTH-80, WIN_HEIGHT-65, 50, 50);
+    };
+    
+    setImageSource(img_loader, "../IMGs/IMG_TransparentLoader.png");
+    setImageSource(keyA_image, _keySprites[0]);
+    setImageSource(keyD_image, _keySprites[2]); 
 }
 
 /* Custom | Auxiliar Methods */
@@ -463,23 +485,11 @@ function drawGameOverWindow(){
         context.drawImage(bg_img, 0, 0)
     }
 
-    refresh_icon.src = "../IMGs/Refresh Icon.png";
-    bg_img.src = "../IMGs/GameOverBackground.png";
+    refresh_icon.src = _GameOverSprites[1];
+    bg_img.src = _GameOverSprites[0];
 }
 
-function drawFixedElementsOnCanvas(){
-    keyA_image.onload = function(){
-        setCanvasBGColor("#674d69");
-        floor.draw();
-        context.drawImage(keyA_image, 20, WIN_HEIGHT-65, 50, 50);
-        context.drawImage(keyD_image, WIN_WIDTH-80, WIN_HEIGHT-65, 50, 50);
-    }
-
-    changeControlKeySprite(keyA_image, keysURL[0]);
-    changeControlKeySprite(keyD_image, keysURL[2]);
-}
-
-function changeControlKeySprite(img, url){
+function setImageSource(img, url){
     img.src = url;
 }
 
@@ -516,17 +526,17 @@ function changeMenuButtonSprite(button_id, isMouseOver){
     exitBtn = document.getElementById("exitBtn");
 
     if(startBtn.id === button_id && isMouseOver){
-        startBtn.setAttribute("src", "../IMGs/Selected Button.png");
+        startBtn.setAttribute("src", _MenuSprites[1]);
     }
     else{
-        startBtn.setAttribute("src", "../IMGs/Idle Button.png");
+        startBtn.setAttribute("src", _MenuSprites[0]);
     }
         
     if(exitBtn.id === button_id && isMouseOver){
-        exitBtn.setAttribute("src", "../IMGs/Selected Button.png");
+        exitBtn.setAttribute("src", _MenuSprites[1]);
     }
     else{
-        exitBtn.setAttribute("src", "../IMGs/Idle Button.png");
+        exitBtn.setAttribute("src", _MenuSprites[0]);
     }
 }
 
