@@ -1,19 +1,29 @@
 /* Global Variables */
+// Constant Declarations
+const FRUIT_WIDTH = 25;
+const FRUIT_HEIGHT = 25;
+const HIGHSCORE_NAME = "highscore";
+
+// Variable Declarations
 let WIN_WIDTH, WIN_HEIGHT;
 let context;
 let heldKeys = [];
 let scoreTxt, healthTxt, highscoreTxt;
 let gameOver = false;
 
-let img_loader = new Image();
-let keyA_image = new Image();
-let keyD_image = new Image();
-
+// Array Declarations
 let _keySprites = [
     "../IMGs/Control Keys/A-Key Released.png",
     "../IMGs/Control Keys/A-Key Pressed.png",
     "../IMGs/Control Keys/D-Key Released.png",
     "../IMGs/Control Keys/D-Key Pressed.png"
+];
+
+let _playerSprites = [
+    "../IMGs/Player/IMG_Player-CloseMouth.png",
+    "../IMGs/Player/IMG_Player-OpenMouth.png",
+    "../IMGs/Player/IMG_PlayerBelly_Left.png",
+    "../IMGs/Player/IMG_PlayerBelly_Right.png"
 ];
 
 let _GameOverSprites = [
@@ -26,10 +36,7 @@ let _MenuSprites = [
     "../IMGs/Menu Assets/Selected Button.png"
 ];
 
-const FRUIT_WIDTH = 25;
-const FRUIT_HEIGHT = 25;
-const HIGHSCORE_NAME = "highscore";
-
+// Class | Object Declarations
 let keyLabels = {
     left: "left", 
     right: "right"
@@ -39,6 +46,15 @@ let keyMap = {
     65: keyLabels.left, // Tecla 'A'
     68: keyLabels.right, // Tecla 'D'
 };
+
+let imageGallery = {
+    loader: new Image(),
+    keyA: new Image(),
+    keyD: new Image(),
+    playerBody: new Image(),
+    playerBellyR: new Image(),
+    playerBellyL: new Image()
+}
 
 /* Game Objects */
 let floor = {
@@ -62,7 +78,6 @@ let player = {
     y: -1,
     width: 50,
     height: 50,
-    color: "#ff7c70",
     defaultSpeed: 3,
     speed: 3,
     score: 0,
@@ -71,28 +86,31 @@ let player = {
     
     belly: {
         xLeft: 275, 
-        xRight: 300,
+        xRight: 325,
         y: -1, 
         widthLeft: 0,
-        widthRight: 25,
+        widthRight: 0,
         height: 25, 
         color: "#ff7c70",
 
         draw: function(){
             this.y = floor.y - this.height;
 
-            context.fillStyle = this.color;
-            context.fillRect(this.xLeft, this.y, this.widthLeft, this.height);
-            context.fillRect(this.xRight, this.y, this.widthRight, this.height);
+            context.drawImage(imageGallery.playerBellyL, this.xLeft, this.y, this.widthLeft, this.height);
+            context.drawImage(imageGallery.playerBellyR, this.xRight, this.y, this.widthRight, this.height);
+
+            setImageSource(imageGallery.playerBellyL, _playerSprites[2]);
+            setImageSource(imageGallery.playerBellyR, _playerSprites[3]);
         }
     },
 
     draw: function(){
         this.y = floor.y - this.height;
 
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y, this.width, this.height);
+        context.drawImage(imageGallery.playerBody, this.x, this.y, this.width, this.height);
         this.belly.draw();
+
+        setImageSource(imageGallery.playerBody, _playerSprites[0]);
     },
 
     control: function(){
@@ -103,13 +121,13 @@ let player = {
                 this.x += this.speed;
                 this.belly.xLeft += this.speed;
                 this.belly.xRight += this.speed;
-                setImageSource(keyD_image, _keySprites[3]);
+                setImageSource(imageGallery.keyD, _keySprites[3]);
             }
             else if(held_key === keyLabels.left){
                 this.x -= this.speed;
                 this.belly.xLeft -= this.speed;
                 this.belly.xRight -= this.speed;
-                setImageSource(keyA_image, _keySprites[1]);
+                setImageSource(imageGallery.keyA, _keySprites[1]);
             }
         }
 
@@ -125,20 +143,20 @@ let player = {
             // Fat Belly Collision
             this.x = -wL;
             this.belly.xLeft = -wL;
-            this.belly.xRight = -wL + 25;
+            this.belly.xRight = -wL + 50;
         }
         else if (this.x <= 0){ 
             // Default Collision
             this.x = 0;
             this.belly.xLeft = 0;
-            this.belly.xRight = 25;
+            this.belly.xRight = 50;
         }
 
         /* Player Collision towards the Canvas Border [right side] */
         if(this.belly.xRight >= WIN_WIDTH - wR){
-            this.x = WIN_WIDTH - (this.width + wR - 25);
+            this.x = WIN_WIDTH - (this.width + wR);
             this.belly.xRight = WIN_WIDTH - wR;
-            this.belly.xLeft = WIN_WIDTH - (wR + 25);
+            this.belly.xLeft = WIN_WIDTH - (wR + 50);
         }
         else if(this.x >= WIN_WIDTH - this.width){
             // Default Collision
@@ -167,12 +185,12 @@ let player = {
         scoreTxt.innerHTML = `Score: ${this.score}`;
         
         // Maximum Bellies' Width Size
-        if(this.belly.widthLeft <= -50 && this.belly.widthRight >= 75){
+        if(this.belly.widthLeft <= -50 && this.belly.widthRight >= 50){
             this.belly.widthLeft = -50;
-            this.belly.widthRight = 75;
+            this.belly.widthRight = 50;
             this.speed = this.defaultSpeed / 4;
         }
-        else if(this.belly.widthLeft > -50 && this.belly.widthRight < 75)
+        else if(this.belly.widthLeft > -50 && this.belly.widthRight < 50)
         {
             this.belly.widthLeft -= 1;
             this.belly.widthRight += 1;
@@ -425,20 +443,20 @@ function update(){
 }
 
 function draw(){ 
-    img_loader.onload = () => {
+    imageGallery.loader.onload = () => {
         setCanvasBGColor("#674d69");
         floor.draw();
         fruits.draw();
         player.draw();
 
         // Drawing Control Keys on Canvas (above floor area)
-        context.drawImage(keyA_image, 20, WIN_HEIGHT-65, 50, 50);
-        context.drawImage(keyD_image, WIN_WIDTH-80, WIN_HEIGHT-65, 50, 50);
+        context.drawImage(imageGallery.keyA, 20, WIN_HEIGHT-65, 50, 50);
+        context.drawImage(imageGallery.keyD, WIN_WIDTH-80, WIN_HEIGHT-65, 50, 50);
     };
     
-    setImageSource(img_loader, "../IMGs/IMG_TransparentLoader.png");
-    setImageSource(keyA_image, _keySprites[0]);
-    setImageSource(keyD_image, _keySprites[2]); 
+    setImageSource(imageGallery.loader, "../IMGs/IMG_TransparentLoader.png");
+    setImageSource(imageGallery.keyA, _keySprites[0]);
+    setImageSource(imageGallery.keyD, _keySprites[2]); 
 }
 
 /* Custom | Auxiliar Methods */
