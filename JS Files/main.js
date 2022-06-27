@@ -83,6 +83,7 @@ let player = {
     score: 0,
     maxScore: 0,
     health: 3,
+    isNearCollectible: false,
     
     belly: {
         xLeft: 275, 
@@ -110,7 +111,12 @@ let player = {
         context.drawImage(imageGallery.playerBody, this.x, this.y, this.width, this.height);
         this.belly.draw();
 
-        setImageSource(imageGallery.playerBody, _playerSprites[0]);
+        if(!this.isNearCollectible){
+            setImageSource(imageGallery.playerBody, _playerSprites[0]);
+        }
+        else{
+            setImageSource(imageGallery.playerBody, _playerSprites[1]);
+        }
     },
 
     control: function(){
@@ -256,6 +262,8 @@ let fruits = {
         for(let i=0; i < this._storage.length; i++){
             let item = this._storage[i];
 
+            this.detectCollectibleAbovePlayer(item);
+
             this.checkPlayerBodyCollision(item);
             this.checkPlayerBellyLeftCollision(item);
             this.checkPlayerBellyRightCollision(item);
@@ -279,12 +287,11 @@ let fruits = {
     checkPlayerBellyLeftCollision: function(item){
         if( // Left Belly Player Collision
             player.belly.xLeft > item.x + item.width && // LEFT
-            player.belly.xLeft + player.belly.widthLeft < item.x && // INSIDE-LEFT
+            player.belly.xLeft + player.belly.widthLeft - 25 < item.x && // INSIDE-LEFT
             player.belly.y < item.y + item.height && // TOP
             player.belly.y + player.belly.y > item.y // BOTTOM
         ){
             this.destroyOnCollision(item);
-            this.gatherGreenCollectible(item);
             this.gatherRedCollectible(item);
             this.setDelay();
         }
@@ -293,12 +300,11 @@ let fruits = {
     checkPlayerBellyRightCollision: function(item){
         if( // Right Belly Player Collision
             player.belly.xRight < item.x + item.width && // RIGHT
-            player.belly.xRight + player.belly.widthRight > item.x && // INSIDE-RIGHT
+            player.belly.xRight + player.belly.widthRight> item.x && // INSIDE-RIGHT
             player.belly.y < item.y + item.height && // TOP
             player.belly.y + player.belly.y > item.y // BOTTOM
         ){
             this.destroyOnCollision(item);
-            this.gatherGreenCollectible(item);
             this.gatherRedCollectible(item);
             this.setDelay();
         }
@@ -337,6 +343,22 @@ let fruits = {
 
         if(this.delay >= 100){
             this.delay = 100;
+        }
+    },
+
+    detectCollectibleAbovePlayer: function(item){
+        let aboveArea = 100;
+
+        if( // Main Player Body Collision
+        player.x < item.x + item.width && // RIGHT
+        player.x + player.width > item.x && // LEFT
+        player.y - aboveArea < item.y + item.height && // TOP
+        player.y + player.height > item.y // INSIDE
+        ){
+            player.isNearCollectible = true;
+        }
+        else{
+            player.isNearCollectible = false;
         }
     }
 }
