@@ -361,7 +361,7 @@ let fruits = {
         else{
             setTimeout(() => {
                 player.isNearCollectible = false;
-            }, 1000);
+            }, 2000);
         }
     }
 }
